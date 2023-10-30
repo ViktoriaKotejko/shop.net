@@ -29,6 +29,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 <body class="d-flex flex-column h-100">
 <?php $this->beginBody() ?>
 
+
 <header id="header">
     <?php
     NavBar::begin([
@@ -67,6 +68,18 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
         <?= $content ?>
     </div>
 </main>
+
+<?= $this->context->my_var ?>
+ <?php if(isset($this->context->myVar)) : ?>
+    <?= $this->context->myVar ?>
+    <p><?= $this->params['t1'] ?></p>
+  <?php endif; ?>
+<p>
+ <?php if (isset($this->blocks['block1'])): ?>
+    <?= $this->blocks['block1']?>
+ <?php endif; ?>
+</p>
+
 
 <footer id="footer" class="mt-auto py-3 bg-light">
     <div class="container">
