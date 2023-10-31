@@ -1,18 +1,25 @@
-<h2>Hello world!</h2>
+ <?php
 
- <?= $this->render('inc'); ?>
-<?= $this->render('//inc/test.html'); ?>
-<p>  <?= $name ?> </p>
-<p>  <?= $age ?> </p>
-<p> <?= $this->params['t1'] ?> </p>
+ use yii\helpers\Html;
+ use yii\widgets\ActiveForm;
 
- <?php  $this->params['t2'] = 'T2 params';?>
-<p> <?= $this->params['t2'] ?> </p>
+ ?>
+<div class="col-md-12">
+    <h2>Страница с формой</h2>
+     <?php $form = ActiveForm::begin()?>
+        <?= $form->field($model, 'name') ?>
+        <?= $form->field($model, 'email') ?>
+        <?= $form->field($model, 'text')->textarea(['rows'=>7]) ?>
+        <div class="form-group">
+            <?= Html::submitButton('Отправить',
+                ['class' => 'btn btn-default']) ?>
+        </div>
 
-<?php $this->beginBlock('block1'); ?>
-    <p> <?= $this->params['t2'] ?> </p>
-    <p>...содержимое блока 1... </p>
-<?php $this->endBlock(); ?>
+     <?php ActiveForm::end(); ?>
+
+</div>
+
+
 
 
 

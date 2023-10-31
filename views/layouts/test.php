@@ -22,8 +22,13 @@
 </head>
 <body>
  <?php $this->beginBody() ?>
+ <div class="container">
+     <div class="row">
+         <?=  $content ?>
+     </div>
+ </div>
 
-    <?=  $content ?>
+
  <?php $this->endBody() ?>
 </body>
 </html>
