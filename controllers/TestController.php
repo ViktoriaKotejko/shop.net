@@ -6,6 +6,8 @@ namespace app\controllers;
 
 use app\models\EntryForm;
 use yii\web\Controller;
+use yii\web\Response;
+use yii\widgets\ActiveForm;
 
 class TestController extends AppController
 {
@@ -21,10 +23,15 @@ class TestController extends AppController
 
 
 
-        if ($model->load(\Yii::$app->request->post()) && $model->validate())
-        {
-            \Yii::$app->session->setFlash('success','Данные приняты');
-            return $this->refresh();
+        if (\Yii::$app->request->isAjax) {
+            \Yii::$app->response->format = Response::FORMAT_JSON;
+            if ($model->validate())
+            {
+               return ['message' => 'ok'];
+            } else{
+                return ActiveForm::validate($model);
+            }
+            //return ActiveForm::validate($model);
         }
 
 
