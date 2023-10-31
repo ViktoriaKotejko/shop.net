@@ -40,7 +40,12 @@ use yii\widgets\Pjax;
 
     <?= $form->field($model, 'email')->input('email', ['placeholder' => 'Введите email']) ?>
 
+    <?= $form->field($model, 'topic')->input('text', ['placeholder' => 'Введите Тему сообщения']) ?>
+
     <?= $form->field($model, 'text')->textarea(['rows' => 7, 'placeholder' => 'Введите текст']) ?>
+
+
+
     <div class="form-group">
         <div class="col-md-5 offset-2">
             <?= Html::submitButton('Отправить',
