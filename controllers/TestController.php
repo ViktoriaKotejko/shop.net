@@ -7,6 +7,7 @@ namespace app\controllers;
 use app\models\Country;
 use app\models\EntryForm;
 use yii\web\Controller;
+use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
 
@@ -82,6 +83,39 @@ class TestController extends AppController
         }
 
         return $this->render('create', compact('country'));
+    }
+
+    public function actionUpdate(){
+        $this->layout = 'test';
+        $this->view->title = 'Update';
+
+        $country = Country::findOne('UA');
+        if (!$country){
+            throw new NotFoundHttpException('Country not found');
+        }
+        if ($country->load(\Yii::$app->request->post()) && $country->save()){
+            \Yii::$app->session->setFlash('success', 'OK');
+            return $this->refresh();
+        }
+        return $this->render('update', compact('country'));
+
+    }
+
+    public function actionDelete($code = ''){
+        $this->layout = 'test';
+        $this->view->title = 'Delete';
+
+        $country = Country::findOne($code);
+        if ($country){
+            if (false !== $country->delete()){
+                \Yii::$app->session->setFlash('success', 'OK');
+            }else {
+                \Yii::$app->session->setFlash('error', 'error');
+            }
+        }
+
+        return $this->render('delete', compact('country'));
+
     }
 
 }
