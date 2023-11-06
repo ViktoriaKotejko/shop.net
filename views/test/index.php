@@ -9,38 +9,21 @@ use yii\widgets\Pjax;
 <div class="col-md-12">
 
     <h2>Страница с формой</h2>
+    <?php \app\components\HelloWidget::begin(['name'=>'Vika']); ?>
+        <h1>Контент виджета</h1>
+
+     <?php \app\components\HelloWidget::end();  ?>
 
      <?php Pjax::begin() ?>
-    <?php if (Yii::$app->session->hasFlash('success')): ?>
-        <div class="alert alert-success alert-dismissible" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-            <?= Yii::$app->session->getFlash('success') ?>
-        </div>
-    <?php endif; ?>
 
-    <?php $form = ActiveForm::begin([
-        'id' => 'my-form',
-        'enableClientValidation' => true,
-        'options' => [
-            'class' => 'form-horizontal',
-            'data-pjax' => true,
-        ],
-        'fieldConfig' => [
-            'template' => "{label} 
-                            \n <div class='col-md-5'>{input}</div> 
-                            \n <div class='col-md-5'>{hint} </div> 
-                            \n <div class='col-md-5'>{error}</div> ",
-            'labelOptions' => ['class' => 'col-md-2 control-label']
 
-        ]
-    ]) ?>
+
+    <?php $form = ActiveForm::begin() ?>
     <?= $form->field($model, 'name')->textInput(['placeholder' => 'Введите имя']) ?>
 
     <?= $form->field($model, 'email')->input('email', ['placeholder' => 'Введите email']) ?>
 
-    <?= $form->field($model, 'topic', ['enableAjaxValidation' => true])->input('text', ['placeholder' => 'Введите Тему сообщения']) ?>
+    <?= $form->field($model, 'topic', ['enableAjaxValidation' => false])->input('text', ['placeholder' => 'Введите Тему сообщения']) ?>
 
     <?= $form->field($model, 'text')->textarea(['rows' => 7, 'placeholder' => 'Введите текст']) ?>
 
@@ -80,7 +63,7 @@ form.on('beforeSubmit', function (){
 })
 JS;
 
- $this->registerJs($js);
+// $this->registerJs($js);
 
  ?>
 

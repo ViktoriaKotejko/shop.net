@@ -15,20 +15,38 @@ class TestController extends AppController
 {
 
 
-    public function actionIndex($name = 'Guest', $age = 25){
+    public function actionIndex($alert ='', $name = 'Guest', $age = 25){
         $this->layout = 'test';
-        \Yii::$app->view->params['t1'] = 'T1 params';
         $this->view->title = 'Test page';
+
+        switch ($alert){
+            case 'error':
+                \Yii::$app->session->setFlash('error', 'Error');
+                break;
+            case 'success':
+                \Yii::$app->session->setFlash('success', 'OK');
+                break;
+            case 'info':
+                \Yii::$app->session->setFlash('info', 'info');
+                break;
+            case 'warning':
+                \Yii::$app->session->setFlash('warning', 'warning');
+                break;
+           default:
+                \Yii::$app->session->setFlash('danger', 'danger');
+                break;
+        }
 
         $model = new EntryForm();
 
-        if (\Yii::$app->request->isAjax) {
-            \Yii::$app->response->format = Response::FORMAT_JSON;
-            if ($model->validate())
-            {
-               return ['message' => 'ok'];
+
+        if ($model->load(\Yii::$app->request->post())){
+            if ($model->validate()){
+                \Yii::$app->session->setFlash('success', 'OK');
+                return $this->refresh();
+
             } else{
-                return ActiveForm::validate($model);
+                \Yii::$app->session->setFlash('error', 'Error');
             }
         }
         return $this->render('index', compact('model'));
@@ -42,19 +60,6 @@ class TestController extends AppController
         $this->layout = 'test';
         $this->view->title = 'Работа с моделями';
 
-//        $contries = Country::find()->where('population < 100000000 AND code <> "AU" ')->all();
-//        $contries = Country::find()->where('population < :population AND code <> :code' ,[':code' => "AU", ':population' => 100000000])->all();
-   /*     $contries = Country::find()->where([
-            'code' => ['DE', 'FR', 'GB'],
-            'status' => 1,
-        ])->all();*/
-
-        //$contries = Country::find()->where(['like','name','ni'])->all();
-//        $contries = Country::find()->orderBy('population DESC')->all();
-       // $contries = Country::find()->count();
-       // debug($contries, 1);
-
-//        $contries = Country::find()->limit(1);
        $contries = Country::findAll('DE');
 
 
@@ -72,10 +77,6 @@ class TestController extends AppController
             \Yii::$app->response->format = Response::FORMAT_JSON;
             return ActiveForm::validate($country);
         }
-//        $country->code = 'UA';
-//        $country->name = 'Ukraine';
-//        $country->population = '4184000';
-//        $country->status = '1';
 
         if ($country->load(\Yii::$app->request->post()) && $country->save()){
             \Yii::$app->session->setFlash('success', 'OK');
